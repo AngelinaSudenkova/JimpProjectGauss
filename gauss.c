@@ -18,8 +18,8 @@ int main (int argc, char **argv){
         return EXIT_FAILURE;
     }
 
-    for (int w = 0; w < n; w++){
-        while(0){
+    for (int w = 0; w < n; w++){//konglifkt
+        while(1)
         *(r+w) = 0.0;
         for(int k = 0; k < n; k++){
         *(a + w*n + k) = (double)rand()/RAND_MAX; //generuje Awk rand(0,1)
