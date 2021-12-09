@@ -19,10 +19,12 @@ int main (int argc, char **argv){
     }
 
     for (int w = 0; w < n; w++){
+        while(0){
         *(r+w) = 0.0;
         for(int k = 0; k < n; k++){
         *(a + w*n + k) = (double)rand()/RAND_MAX; //generuje Awk rand(0,1)
         *(r+w) += k* *(a+w*n+k);                  //Rwk = k*Awk
+        }
     }
 }
 
