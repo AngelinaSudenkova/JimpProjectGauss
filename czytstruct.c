@@ -108,26 +108,37 @@ int main ( int argc, char **argv){
     double *b = u->b;
     int n = u->n;
     double *x = malloc(sizeof(double) * n);
-   for ( int k = 0; k < n-1; k++){
-       for(int w = k+1 ; w < n; w++){
-           double q = A[w][k]/ A[k][k];
-           for(int j = 0; j < n; j++){
-               A[w][j] -= A[k][j]*q; 
-           }
-       }
+   
+    partialPivoting(A,n);
+    int k,i,j;
+    double factor;
+    for(int k =0;k<n-1;k++){
+        for(i = k+1;i<n;k++) {
+            if(A[i][k]==0){
+                continue;
+            }
+            factor = A[k][k] / A[i][k];
+            for( j = k; k<n;j++ ){
+                A[i][j] = A[k][j] - A[i][j] * factor;
+            }
+            b[i] = b[k] - b[i] * factor;
+        }
+    }
+
+    //Podstawienie wsteczne
     x[n-1] = b[n-1] / A[n-1][n-1];
-    for(int i=n-2;i>-1;i--){
+    for(i=n-2;i>-1;i--){
         suma = 0;
-        for(int j=i+1;j<n;j++){
+        for(j=i+1;j<n;j++){
             suma += A[i][j] * x[j];
         }
         x[i]= (b[i] - suma) / A[i][i]; 
     }
     printf("[ ");
-    for(int i = 0;i<n;i++){
+    for(i = 0;i<n;i++){
         printf("%lf ",x[i]);
     }
-    printf("]");  
+    printf("]"); 
 //     printf("Nowa\n");
 //    for(int i = 0; i < u->n; i++){
 //        printf("\n");
@@ -149,4 +160,4 @@ int main ( int argc, char **argv){
 
     return 0;
 }
-}
+
