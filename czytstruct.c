@@ -70,17 +70,41 @@ ur_t czytaj(char *nazwa_pliku){
 int main ( int argc, char **argv){
 
    ur_t u = czytaj(argv[1]);
-
+    printf("Macierz A:\n");
     for(int i = 0; i < u->n; i++){
         for(int j = 0; j < u->n; j++ ){
-            printf( "%lf ", u->a[i][j]);
+            printf( "%.2lf ", u->a[i][j]);
         }
         printf("\n");
     }
-
+    printf("Macierz B\n");
      for(int i = 0; i < u->n; i++){
-        printf("%lf ", u->b[i]);
+        printf("%.2lf ", u->b[i]);
     }
+    
+    double **A = u->a;
+    double *b = u->b;
+    int n = u->n;
+
+   for ( int k = 0; k < n-1; k++){
+       for(int w = k+1 ; w < n; w++){
+           double q = A[w][k]/ A[k][k];
+           for(int j = 0; j < n; j++){
+               A[w][j] -= A[k][j]*q; 
+           }
+       }
+
+//     printf("Nowa\n");
+//    for(int i = 0; i < u->n; i++){
+//        printf("\n");
+//         for(int j = 0; j < u->n; j++ ){
+//             printf( "%.2lf ", u->a[i][j]);
+//         }
+//    }
+//     printf("\n");
+//     for(int i = 0; i < u->n; i++){
+//         printf("%.2lf ", u->b[i]);
+//     }
 
     free(u->b);
     for ( int i = 0; i < u->n; i++){
