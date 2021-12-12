@@ -113,12 +113,12 @@ int main ( int argc, char **argv){
     int k,i,j;
     double factor;
     for(int k =0;k<n-1;k++){
-        for(i = k+1;i<n;k++) {
+        for(i = k+1;i<n;i++) {
             if(A[i][k]==0){
                 continue;
             }
             factor = A[k][k] / A[i][k];
-            for( j = k; k<n;j++ ){
+            for( j = k; j<n;j++ ){
                 A[i][j] = A[k][j] - A[i][j] * factor;
             }
             b[i] = b[k] - b[i] * factor;
@@ -133,6 +133,7 @@ int main ( int argc, char **argv){
             suma += A[i][j] * x[j];
         }
         x[i]= (b[i] - suma) / A[i][i]; 
+        printf("X wynosi %lf\n",x[i]);
     }
     printf("[ ");
     for(i = 0;i<n;i++){
