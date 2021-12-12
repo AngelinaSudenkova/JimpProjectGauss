@@ -115,13 +115,13 @@ int main ( int argc, char **argv){
                A[w][j] -= A[k][j]*q; 
            }
        }
-    x[n-1] = b[n-1] / a[n-1][n-1];
+    x[n-1] = b[n-1] / A[n-1][n-1];
     for(int i=n-2;i>-1;i--){
         suma = 0;
         for(int j=i+1;j<n;j++){
-            suma += a[i][j] * x[j];
+            suma += A[i][j] * x[j];
         }
-        x[i]= (b[i] - suma) / a[i][i]; 
+        x[i]= (b[i] - suma) / A[i][i]; 
     }
     printf("[ ");
     for(int i = 0;i<n;i++){
@@ -148,4 +148,5 @@ int main ( int argc, char **argv){
     free(u);
 
     return 0;
+}
 }
