@@ -109,15 +109,18 @@ int main ( int argc, char **argv){
     int n = u->n;
     double *x = malloc(sizeof(double) * n);
     partialPivoting(A,n);
-    int k,i,j;
     double factor;
+    printf("%d \n",n);
     for(int k =0;k<n-1;k++){
-        for(i = k+1;i<n;k++) {
+        for( int i = (k+1);i<n;i++) {
+            printf("%d",i);
             if(A[i][k]==0){
                 continue;
             }
+            
             factor = A[k][k] / A[i][k];
-            for( j = k; k<n;j++ ){
+            for( int j = k; k<n;j++ ){
+                printf("%d \n",j);
                 A[i][j] = A[k][j] - A[i][j] * factor;
             }
             b[i] = b[k] - b[i] * factor;
@@ -125,19 +128,19 @@ int main ( int argc, char **argv){
     }
 
     //Podstawienie wsteczne
-    x[n-1] = b[n-1] / A[n-1][n-1];
-    for(i=n-2;i>-1;i--){
-        suma = 0;
-        for(j=i+1;j<n;j++){
-            suma += A[i][j] * x[j];
-        }
-        x[i]= (b[i] - suma) / A[i][i]; 
-    }
-    printf("[ ");
-    for(i = 0;i<n;i++){
-        printf("%lf ",x[i]);
-    }
-    printf("]"); 
+    // x[n-1] = b[n-1] / A[n-1][n-1];
+    // for(i=n-2;i>-1;i--){
+    //     suma = 0;
+    //     for(j=i+1;j<n;j++){
+    //         suma += A[i][j] * x[j];
+    //     }
+    //     x[i]= (b[i] - suma) / A[i][i]; 
+    // }
+    printf("[ dafsafsafsafsafasfsafasfsa");
+    // for(i = 0;i<n;i++){
+    //     printf("%lf ",x[i]);
+    // }
+    // printf("]"); 
 //     printf("Nowa\n");
 //    for(int i = 0; i < u->n; i++){
 //        printf("\n");
