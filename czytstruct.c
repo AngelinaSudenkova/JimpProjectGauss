@@ -1,11 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-// typedef struct{
-//     int n; //liczba rownan
-//     double *a; //macierz
-//     double *b; //wektor prawych stron
-// } *ur_t;
 void changeRows(double *rowA,double *rowB,int n){
     int i;
     double temp;
@@ -34,11 +29,8 @@ struct Gauss_system{
     double **a; 
     double *b; 
 };
-// typedef double real;
-typedef struct Gauss_system *ur_t;
-// ur_t u;
-// struct Gauss_system *uvar2;
 
+typedef struct Gauss_system *ur_t;
 
 ur_t czytaj(char *nazwa_pliku){
     
@@ -49,7 +41,6 @@ ur_t czytaj(char *nazwa_pliku){
     
     int size;
     fscanf(in, "%d", &size);
-    // printf(" size = %d", size);
     double **matrix = malloc(sizeof(double*)*size);
     for(int i = 0; i < size; i++){
         matrix[i] = malloc(sizeof(double)*size);
@@ -62,22 +53,9 @@ ur_t czytaj(char *nazwa_pliku){
             fscanf(in, "%lf", &matrix[i][j]);
         }
     }
-
-    //  for(int i = 0; i < size; i++){
-    //     for(int j = 0; j <size; j++ ){
-    //         printf( "%lf ", matrix[i][j]);
-    //     }
-    //     printf("\n");
-    // }
-
     for(int i = 0; i < size; i++){
         fscanf(in, "%lf", vector+i);
     }
-
-    // for(int i = 0; i < size; i++){
-    //     printf("%lf ", vector[i]);
-    // }
-
     ur_t u = malloc(sizeof(struct Gauss_system));
     u->n = size;
     u->a = matrix;
@@ -120,39 +98,14 @@ int main ( int argc, char **argv){
             
             factor = A[k][k] / A[i][k];
             for( int j = k; k<n;j++ ){
-                printf("%d \n",j);
                 A[i][j] = A[k][j] - A[i][j] * factor;
             }
             b[i] = b[k] - b[i] * factor;
         }
     }
-
-    //Podstawienie wsteczne
-    // x[n-1] = b[n-1] / A[n-1][n-1];
-    // for(i=n-2;i>-1;i--){
-    //     suma = 0;
-    //     for(j=i+1;j<n;j++){
-    //         suma += A[i][j] * x[j];
-    //     }
-    //     x[i]= (b[i] - suma) / A[i][i]; 
-    // }
-    printf("[ dafsafsafsafsafasfsafasfsa");
-    // for(i = 0;i<n;i++){
-    //     printf("%lf ",x[i]);
-    // }
-    // printf("]"); 
-//     printf("Nowa\n");
-//    for(int i = 0; i < u->n; i++){
-//        printf("\n");
-//         for(int j = 0; j < u->n; j++ ){
-//             printf( "%.2lf ", u->a[i][j]);
-//         }
-//    }
-//     printf("\n");
-//     for(int i = 0; i < u->n; i++){
-//         printf("%.2lf ", u->b[i]);
-//     }
-
+    for(int i=0;i<n;i++){
+        printf("%lf",x[i]);
+    }
     free(u->b);
     for ( int i = 0; i < u->n; i++){
         free(u->a[i]);
