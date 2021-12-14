@@ -1,6 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f87ab53cfd7fd86c1b2af99ac7a8680664a0b9d7
 void changeRows(double *rowA,double *rowB,int n){
     int i;
     double temp;
@@ -29,6 +33,12 @@ struct Gauss_system{
     double **a; 
     double *b; 
 };
+<<<<<<< HEAD
+=======
+
+typedef struct Gauss_system *ur_t;
+
+>>>>>>> f87ab53cfd7fd86c1b2af99ac7a8680664a0b9d7
 
 typedef struct Gauss_system *ur_t;
 
@@ -53,9 +63,17 @@ ur_t czytaj(char *nazwa_pliku){
             fscanf(in, "%lf", &matrix[i][j]);
         }
     }
+<<<<<<< HEAD
     for(int i = 0; i < size; i++){
         fscanf(in, "%lf", vector+i);
     }
+=======
+
+    for(int i = 0; i < size; i++){
+        fscanf(in, "%lf", vector+i);
+    }
+
+>>>>>>> f87ab53cfd7fd86c1b2af99ac7a8680664a0b9d7
     ur_t u = malloc(sizeof(struct Gauss_system));
     u->n = size;
     u->a = matrix;
@@ -86,26 +104,44 @@ int main ( int argc, char **argv){
     double *b = u->b;
     int n = u->n;
     double *x = malloc(sizeof(double) * n);
+   
     partialPivoting(A,n);
     double factor;
     printf("%d \n",n);
     for(int k =0;k<n-1;k++){
-        for( int i = (k+1);i<n;i++) {
-            printf("%d",i);
+        for(i = k+1;i<n;i++) {
             if(A[i][k]==0){
                 continue;
             }
             
             factor = A[k][k] / A[i][k];
-            for( int j = k; k<n;j++ ){
+            for( j = k; j<n;j++ ){
                 A[i][j] = A[k][j] - A[i][j] * factor;
             }
             b[i] = b[k] - b[i] * factor;
         }
     }
-    for(int i=0;i<n;i++){
-        printf("%lf",x[i]);
+
+    //Podstawienie wsteczne
+    x[n-1] = b[n-1] / A[n-1][n-1];
+    for(i=n-2;i>-1;i--){
+        suma = 0;
+        for(j=i+1;j<n;j++){
+            suma += A[i][j] * x[j];
+        }
+        x[i]= (b[i] - suma) / A[i][i]; 
+        printf("\n");
+        printf("\nX wynosi %lf\n",x[i]);
     }
+
+
+    printf("[ ");
+    for(i = 0; i < n ; i++){
+        printf("%lf ",x[i]);
+    }
+    printf("]"); 
+
+
     free(u->b);
     for ( int i = 0; i < u->n; i++){
         free(u->a[i]);
@@ -115,3 +151,4 @@ int main ( int argc, char **argv){
 
     return 0;
 }
+
