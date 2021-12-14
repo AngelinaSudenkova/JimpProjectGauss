@@ -1,22 +1,38 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-// typedef struct{
-//     int n; //liczba rownan
-//     double *a; //macierz
-//     double *b; //wektor prawych stron
-// } *ur_t;
 
+void changeRows(double *rowA,double *rowB,int n){
+    int i;
+    double temp;
+    for( i = 0; i<n ; i++ ) {
+        temp = rowA[i] ;
+        rowA[i] = rowB[i] ;
+        rowB[i] = temp;
+    }
+}
+
+void partialPivoting( double **A,int n){
+    int i,k;
+    for( i=0; i<n-1; i++ ) {
+        if( A[i][i]==0 ){
+            for( k=0; k<n; k++ ) {
+                if( A[k][i] != 0 ) {
+                    changeRows( A[k], A[i],n );
+                }
+            }
+        }
+    }
+}
 
 struct Gauss_system{
     int n; 
     double **a; 
     double *b; 
 };
-// typedef double real;
+
 typedef struct Gauss_system *ur_t;
-// ur_t u;
-// struct Gauss_system *uvar2;
+
 
 
 ur_t czytaj(char *nazwa_pliku){
@@ -42,20 +58,9 @@ ur_t czytaj(char *nazwa_pliku){
         }
     }
 
-    //  for(int i = 0; i < size; i++){
-    //     for(int j = 0; j <size; j++ ){
-    //         printf( "%lf ", matrix[i][j]);
-    //     }
-    //     printf("\n");
-    // }
-
     for(int i = 0; i < size; i++){
         fscanf(in, "%lf", vector+i);
     }
-
-    // for(int i = 0; i < size; i++){
-    //     printf("%lf ", vector[i]);
-    // }
 
     ur_t u = malloc(sizeof(struct Gauss_system));
     u->n = size;
@@ -68,7 +73,8 @@ ur_t czytaj(char *nazwa_pliku){
 }
 
 int main ( int argc, char **argv){
-
+    double suma;
+    
    ur_t u = czytaj(argv[1]);
     printf("Macierz A:\n");
     for(int i = 0; i < u->n; i++){
@@ -85,26 +91,42 @@ int main ( int argc, char **argv){
     double **A = u->a;
     double *b = u->b;
     int n = u->n;
+    double *x = malloc(sizeof(double) * n);
+   
+    partialPivoting(A,n);
+    int k,i,j;
+    double factor;
+    for(int k =0;k<n-1;k++){
+        for(i = k+1;i<n;i++) {
+            if(A[i][k]==0){
+                continue;
+            }
+            factor = A[k][k] / A[i][k];
+            for( j = k; j<n;j++ ){
+                A[i][j] = A[k][j] - A[i][j] * factor;
+            }
+            b[i] = b[k] - b[i] * factor;
+        }
+    }
 
-   for ( int k = 0; k < n-1; k++){
-       for(int w = k+1 ; w < n; w++){
-           double q = A[w][k]/ A[k][k];
-           for(int j = 0; j < n; j++){
-               A[w][j] -= A[k][j]*q; 
-           }
-       }
+    //Podstawienie wsteczne
+    x[n-1] = b[n-1] / A[n-1][n-1];
+    for(i=n-2;i>-1;i--){
+        suma = 0;
+        for(j=i+1;j<n;j++){
+            suma += A[i][j] * x[j];
+        }
+        x[i]= (b[i] - suma) / A[i][i]; 
+        printf("\nX wynosi %lf\n",x[i]);
+    }
 
-//     printf("Nowa\n");
-//    for(int i = 0; i < u->n; i++){
-//        printf("\n");
-//         for(int j = 0; j < u->n; j++ ){
-//             printf( "%.2lf ", u->a[i][j]);
-//         }
-//    }
-//     printf("\n");
-//     for(int i = 0; i < u->n; i++){
-//         printf("%.2lf ", u->b[i]);
-//     }
+
+    printf("[ ");
+    for(i = 0; i < n ; i++){
+        printf("%lf ",x[i]);
+    }
+    printf("]"); 
+
 
     free(u->b);
     for ( int i = 0; i < u->n; i++){
@@ -115,3 +137,4 @@ int main ( int argc, char **argv){
 
     return 0;
 }
+
