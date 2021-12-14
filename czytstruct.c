@@ -44,7 +44,7 @@ ur_t czytaj(char *nazwa_pliku){
     
     int size;
     fscanf(in, "%d", &size);
-    // printf(" size = %d", size);
+    printf(" size = %d", size);
     double **matrix = malloc(sizeof(double*)*size);
     for(int i = 0; i < size; i++){
         matrix[i] = malloc(sizeof(double)*size);
@@ -74,8 +74,16 @@ ur_t czytaj(char *nazwa_pliku){
 
 int main ( int argc, char **argv){
     double suma;
-    
+    if(argc>2){
+        printf("Podano za dużo argumentów, poprawne wywołanie programu to:\n");
+        printf("\t \t \t nazwa_programu.exe nazwa_pliku_z_macierzą");
+        return -1;
+    }
    ur_t u = czytaj(argv[1]);
+   if(u == NULL){
+       printf("Nie udało się odczytać pliku: %s ",argv[1]);
+       return -1;
+   }
     printf("Macierz A:\n");
     for(int i = 0; i < u->n; i++){
         for(int j = 0; j < u->n; j++ ){
@@ -111,16 +119,18 @@ int main ( int argc, char **argv){
 
     //Podstawienie wsteczne
     x[n-1] = b[n-1] / A[n-1][n-1];
+    printf("\n  \nX nr %d wynosi %lf\n",n,x[n-1]);
     for(i=n-2;i>-1;i--){
         suma = 0;
         for(j=i+1;j<n;j++){
             suma += A[i][j] * x[j];
         }
         x[i]= (b[i] - suma) / A[i][i]; 
-        printf("\nX wynosi %lf\n",x[i]);
+        printf("\n");
+        printf("\nX nr %d wynosi %lf\n",i+1,x[i]);
     }
 
-
+    printf("\t \t \t Macierz rozwiązań to:\n");
     printf("[ ");
     for(i = 0; i < n ; i++){
         printf("%lf ",x[i]);
