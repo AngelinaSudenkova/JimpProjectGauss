@@ -6,7 +6,10 @@
 int main(int argc, char **argv)
 {
     int n = argc > 1 ? atoi(argv[1]) : 10;
-   
+    if(n <1){
+        printf("Wymiar macierzy nie może być mniejszy niż 1.");
+        return -1;
+    }
     srand(time(NULL));
     //Generujemy uklad rownan o postaci A x = b
 
